@@ -2,7 +2,11 @@
   "name": "Atelier Réseau",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      // L'image Python est en Debian 13 (trixie), non supportée par Moby :
+      // on installe Docker CE officiel à la place.
+      "moby": false
+    }
   },
   "hostRequirements": {
     "cpus": 2
