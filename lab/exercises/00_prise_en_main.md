@@ -9,6 +9,12 @@
 - Démarrer le mini-réseau du lab.
 - Savoir « entrer » dans une machine du lab et en ressortir.
 
+> ⚠️ **Ne traduisez pas le site PythonAnywhere en français.** Si votre navigateur propose
+> « Traduire cette page », refusez (ou choisissez *Ne jamais traduire ce site*). La traduction
+> automatique renomme les menus et les boutons (*Web*, *Files*, *Account*, *API Token*…) : vous ne
+> les retrouveriez plus tels qu'ils sont cités dans cet atelier, et elle peut aussi modifier les
+> chemins et noms que vous recopiez.
+
 ---
 
 ## Le principe du lab
