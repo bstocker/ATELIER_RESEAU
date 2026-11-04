@@ -13,16 +13,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate required secrets
+      # Un dépôt créé avec "Use this template" lance ce workflow dès sa création,
+      # avant que les secrets soient configurés : on saute alors le déploiement
+      # au lieu d'afficher une erreur rouge.
+      - name: Check PythonAnywhere secrets
+        id: secrets
         shell: bash
+        env:
+          PA_USERNAME: ${{ secrets.PA_USERNAME }}
+          PA_TOKEN: ${{ secrets.PA_TOKEN }}
+          PA_TARGET_DIR: ${{ secrets.PA_TARGET_DIR }}
+          PA_WEBAPP_DOMAIN: ${{ secrets.PA_WEBAPP_DOMAIN }}
         run: |
-          set -euo pipefail
-          : "${{ secrets.PA_USERNAME }}"
-          : "${{ secrets.PA_TOKEN }}"
-          : "${{ secrets.PA_TARGET_DIR }}"
-          : "${{ secrets.PA_WEBAPP_DOMAIN }}"
+          missing=""
+          for v in PA_USERNAME PA_TOKEN PA_TARGET_DIR PA_WEBAPP_DOMAIN; do
+            [[ -z "${!v}" ]] && missing="$missing $v"
+          done
+          if [[ -n "$missing" ]]; then
+            echo "::warning::Secrets manquants :$missing — déploiement ignoré (voir Séquence 4 du README)."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Upload all files recursively (dirs auto-created by Files API)
+        if: steps.secrets.outputs.ok == 'true'
         shell: bash
         run: |
           set -euo pipefail

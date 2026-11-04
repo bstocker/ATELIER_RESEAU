@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
-# Host prerequisite for the network lab.
+# Pré-requis "hôte" du lab (lancé automatiquement au démarrage du Codespace).
 #
-# Why: Docker bridges enable br_netfilter, which routes bridge frames through
-# the host's iptables FORWARD chain. The default DROP policy then prevents
-# our nat-router container from forwarding traffic between the lan and wan
-# bridges. Disabling bridge-nf for IPv4 keeps frames at L2 and lets the
-# in-container netfilter handle routing/NAT — which is exactly what we
-# want students to observe.
+# Pourquoi : Docker active br_netfilter, qui fait passer les trames des
+# bridges par le pare-feu (iptables) de la machine hôte. Sa politique
+# FORWARD DROP bloquerait alors le trafic entre nos deux réseaux lan et wan.
+# En désactivant ce hook, c'est bien le conteneur nat-router qui route et
+# fait le NAT — c'est exactement ce que l'on veut observer.
 #
-# Run once before `docker compose up`. The change is non-persistent
-# (reverts on reboot); re-run if needed.
-#
-# Requires: sudo
+# Modification non persistante : à relancer après un redémarrage.
 set -euo pipefail
 
 if [[ $EUID -ne 0 ]]; then
     exec sudo -E "$0" "$@"
 fi
 
-echo "[host-setup] Disabling br_netfilter IPv4 hook (was: $(sysctl -n net.bridge.bridge-nf-call-iptables 2>/dev/null || echo 'n/a'))"
-sysctl -w net.bridge.bridge-nf-call-iptables=0 > /dev/null
+KEY=net.bridge.bridge-nf-call-iptables
+if ! sysctl -n "$KEY" >/dev/null 2>&1; then
+    echo "[host-setup] $KEY absent (br_netfilter non chargé) : rien à faire."
+    exit 0
+fi
 
-echo "[host-setup] Done. The lab should now be able to route via nat-router."
-echo "[host-setup] Tip: 'sudo sysctl -w net.bridge.bridge-nf-call-iptables=1' to restore."
+echo "[host-setup] Désactivation du hook br_netfilter IPv4 (valeur actuelle : $(sysctl -n $KEY))"
+sysctl -w "$KEY=0" > /dev/null
+echo "[host-setup] OK. Le lab peut router via nat-router."

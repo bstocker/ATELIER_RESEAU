@@ -1,26 +1,31 @@
 {% extends "base.html" %}
-{% block title %}Accueil — Atelier Réseau M2{% endblock %}
+{% block title %}Accueil — Atelier Réseau{% endblock %}
 {% block content %}
-<h1>Atelier Réseau <span class="sub">Master 2 — fondamentaux pratiques</span></h1>
+<h1>Atelier Réseau <span class="sub">découvrir les réseaux par la pratique</span></h1>
 
-<p>Cette application de référence accompagne l'atelier&nbsp;: elle propose des fiches structurées
-sur trois mécanismes essentiels du réseau et un tableau de bord QoS observé en direct.
+<p>Ce site est votre <strong>cours</strong>&nbsp;: lisez la fiche correspondant à chaque exercice
+<em>avant</em> de le réaliser dans votre Codespace. Suivez les fiches dans l'ordre.
 Toutes les pages exposent leur contenu en JSON via <code>?format=json</code> pour les exercices
 en ligne de commande.</p>
 
 <div class="cards-grid">
+  <a class="card" href="/bases">
+    <div class="card-tag tag-l3">Ex. 1</div>
+    <h2>Les bases</h2>
+    <p>Adresse IP, masque, passerelle, adresse MAC, ARP, ping&nbsp;: le vocabulaire indispensable.</p>
+  </a>
   <a class="card" href="/osi">
-    <div class="card-tag tag-l3">L1 → L7</div>
+    <div class="card-tag tag-l3">Ex. 2 · L1 → L7</div>
     <h2>OSI</h2>
     <p>Le modèle 7 couches, avec un aperçu en direct de la requête HTTP en cours.</p>
   </a>
   <a class="card" href="/dhcp">
-    <div class="card-tag tag-dhcp">UDP 67/68</div>
+    <div class="card-tag tag-dhcp">Ex. 3 · UDP 67/68</div>
     <h2>DHCP</h2>
     <p>L'échange DORA pas-à-pas, options courantes, et points de vigilance (rogue DHCP).</p>
   </a>
   <a class="card" href="/nat">
-    <div class="card-tag tag-nat">PAT</div>
+    <div class="card-tag tag-nat">Ex. 4 · PAT</div>
     <h2>NAT / PAT</h2>
     <p>Traduction avant/après, exemple de table conntrack, limites du NAT.</p>
   </a>
@@ -32,8 +37,8 @@ en ligne de commande.</p>
 </div>
 
 <div class="callout">
-  <strong>Lab Docker</strong> — la partie pratique (captures tcpdump, table conntrack en direct,
-  manipulation d'<code>iptables</code>) se fait dans le répertoire <code>lab/</code> du dépôt.
-  Voir le <em>README</em> du projet pour les séquences.
+  <strong>La pratique se fait dans Codespace</strong> — ouvrez votre dépôt dans GitHub Codespaces&nbsp;:
+  le mini-réseau du dossier <code>lab/</code> y tourne directement. Les énoncés sont dans
+  <code>lab/exercises/</code>, et le <em>README</em> du dépôt donne l'ordre des séquences.
 </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}NAT/PAT — Atelier Réseau M2{% endblock %}
+{% block title %}NAT/PAT — Atelier Réseau{% endblock %}
 {% block content %}
 <h1>NAT / PAT <span class="sub">Network Address Translation</span></h1>
 
@@ -60,9 +60,8 @@ pour permettre l'accès à Internet. En pratique c'est presque toujours du <stro
 </ul>
 
 <div class="callout">
-  <strong>Exercice du lab</strong> — observez la table de traduction en direct&nbsp;:
-  <pre>docker exec lab_nat_router conntrack -L</pre>
-  puis supprimez la règle <code>MASQUERADE</code> et constatez la rupture. Voir
-  <code>lab/exercises/03_nat_pat.md</code>.
+  <strong>Exercice 4 (Codespace)</strong> — observez la table de traduction en direct sur le routeur
+  (<code>conntrack -L</code>), puis supprimez la règle <code>MASQUERADE</code> et constatez la panne.
+  Énoncé&nbsp;: <code>lab/exercises/04_nat_pat.md</code>.
 </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}DHCP — Atelier Réseau M2{% endblock %}
+{% block title %}DHCP — Atelier Réseau{% endblock %}
 {% block content %}
 <h1>DHCP <span class="sub">Dynamic Host Configuration Protocol</span></h1>
 
@@ -50,10 +50,8 @@
 </ul>
 
 <div class="callout">
-  <strong>Exercice du lab</strong> — capturez un DORA complet sur le LAN du lab&nbsp;:
-  <pre>docker exec -it lab_client bash
-tcpdump -i eth0 -nn -e -vv port 67 or port 68</pre>
-  puis relancez <code>dhclient -v eth0</code>. Voir
-  <code>lab/exercises/02_dhcp_dora.md</code>.
+  <strong>Exercice 3 (Codespace)</strong> — retirez l'adresse IP du client, capturez l'échange
+  DORA pendant que <code>dhclient -v eth0</code> en redemande une, puis analysez chaque message.
+  Énoncé&nbsp;: <code>lab/exercises/03_dhcp_dora.md</code>.
 </div>
 {% endblock %}

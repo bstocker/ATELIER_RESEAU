@@ -124,8 +124,8 @@ footer {
 .tag-mono { color: var(--accent); }
 .tag-accent { color: var(--accent); border: 1px solid var(--accent); }
 
-ul.bullet { padding-left: 1.2rem; }
-ul.bullet li { margin: 0.4rem 0; }
+ul.bullet, ol.bullet { padding-left: 1.2rem; }
+ul.bullet li, ol.bullet li { margin: 0.4rem 0; }
 
 .data-table {
   width: 100%; border-collapse: collapse;

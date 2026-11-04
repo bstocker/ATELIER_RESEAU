@@ -40,7 +40,7 @@ digraph network_lab {
     //  NAT router — passerelle entre les deux bridges
     // ========================================================
     nat_router [
-        label = "nat-router\n──────────\nWAN : 172.20.0.254\nLAN : 172.20.1.254\n──────────\niptables MASQUERADE\nip_forward = 1",
+        label = "nat-router\n──────────\ninterface wan : 172.20.0.254\ninterface lan : 172.20.1.254\n──────────\niptables MASQUERADE\nip_forward = 1",
         fillcolor = "#A5D6A7",
         color = "#2E7D32",
         fontcolor = "black",
@@ -72,7 +72,7 @@ digraph network_lab {
         ];
 
         rogue [
-            label = "rogue-dhcp ⚠\n(bonus — exercice 4)\ndnsmasq pirate\n172.20.1.99",
+            label = "rogue-dhcp ⚠\n(bonus — exercice 5)\ndnsmasq pirate\n172.20.1.99",
             fillcolor = "#FFCDD2",
             color = "#C62828",
             fontcolor = "#B71C1C",

@@ -35,7 +35,7 @@ HIGHLIGHT = {
         ("eth.src",  "MAC source",
          "Carte réseau émettrice sur le segment local"),
         ("eth.dst",  "MAC destination",
-         "Récepteur sur le LAN = prochain saut (souvent le routeur, pas la dest. finale)"),
+         "Prochain saut sur le LAN (souvent le routeur). ff:ff:ff:ff:ff:ff = broadcast"),
         ("eth.type", "EtherType",
          "Protocole L3 encapsulé : 0x0800=IPv4, 0x86DD=IPv6, 0x0806=ARP"),
     ],
@@ -108,18 +108,24 @@ HIGHLIGHT = {
          "Adresse IPv4 correspondant au nom interrogé"),
     ],
     "dhcp": [
-        ("dhcp.type",                         "Type de message",
-         "Étape de la séquence DORA : DISCOVER, OFFER, REQUEST ou ACK"),
+        ("dhcp.option.dhcp",                  "Type DHCP (opt 53)",
+         "Étape DORA : 1=DISCOVER, 2=OFFER, 3=REQUEST, 5=ACK, 6=NAK, 7=RELEASE"),
+        ("dhcp.id",                           "Transaction ID",
+         "xid : numéro tiré au hasard par le client, identique dans les 4 messages"),
+        ("dhcp.hw.mac_addr",                  "MAC du client",
+         "Adresse MAC du client qui demande une configuration"),
         ("dhcp.ip.your",                      "IP attribuée",
-         "IP proposée par le serveur (option ou champ yiaddr)"),
-        ("dhcp.option.subnet_mask",           "Masque",
-         "Option 1 — masque de sous-réseau du LAN"),
-        ("dhcp.option.router",                "Passerelle",
-         "Option 3 — IP du routeur par défaut à utiliser"),
-        ("dhcp.option.domain_name_server",    "DNS",
-         "Option 6 — serveur(s) DNS à utiliser"),
-        ("dhcp.option.ip_address_lease_time", "Bail (s)",
-         "Option 51 — durée de validité du bail en secondes"),
+         "Champ yiaddr : IP proposée/attribuée par le serveur (0.0.0.0 côté client)"),
+        ("dhcp.option.dhcp_server_id",        "Serveur (opt 54)",
+         "IP du serveur DHCP qui fait l'offre"),
+        ("dhcp.option.subnet_mask",           "Masque (opt 1)",
+         "Masque de sous-réseau du LAN"),
+        ("dhcp.option.router",                "Passerelle (opt 3)",
+         "IP du routeur par défaut à utiliser pour sortir du LAN"),
+        ("dhcp.option.domain_name_server",    "DNS (opt 6)",
+         "Serveur(s) DNS à utiliser"),
+        ("dhcp.option.ip_address_lease_time", "Bail (opt 51)",
+         "Durée de validité du bail, en secondes"),
     ],
     "bootp": [
         ("bootp.ip.client", "IP client",
@@ -155,6 +161,11 @@ def find_field(node, key):
             r = find_field(v, key)
             if r is not None:
                 return r
+    elif isinstance(node, list):
+        for v in node:
+            r = find_field(v, key)
+            if r is not None:
+                return r
     return None
 
 
@@ -163,7 +174,7 @@ def list_frames(container, pcap):
 
 
 def show_frame(container, pcap, n):
-    raw = run_tshark(container, pcap, ["-T", "json", "-Y", f"frame.number == {n}"])
+    raw = run_tshark(container, pcap, ["-T", "json", "--no-duplicate-keys", "-Y", f"frame.number == {n}"])
     data = json.loads(raw)
     if not data:
         sys.exit(f"Trame {n} introuvable dans {pcap}.")
@@ -197,7 +208,7 @@ def show_frame(container, pcap, n):
     if "http" in layers:
         body = find_field(layers, "http.file_data")
         if body:
-            preview = body.replace("\\n", " ").replace("\\r", "")[:200]
+            preview = " ".join(body.replace("\\n", " ").replace("\\r", " ").split())[:200]
             print(f"  Payload HTTP (extrait) : {preview}")
             print("-" * WIDTH)
 

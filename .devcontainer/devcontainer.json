@@ -1,0 +1,22 @@
+{
+  "name": "Atelier Réseau",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "hostRequirements": {
+    "cpus": 2
+  },
+  // Une seule fois, à la création du Codespace : construction des images du lab (~3 min)
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  // À chaque démarrage du Codespace : pré-requis réseau de l'hôte
+  "postStartCommand": "bash lab/host-setup.sh",
+  "customizations": {
+    "codespaces": {
+      "openFiles": ["README.md"]
+    },
+    "vscode": {
+      "extensions": ["ms-python.python"]
+    }
+  }
+}

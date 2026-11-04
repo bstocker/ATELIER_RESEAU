@@ -46,7 +46,24 @@ services:
         ipv4_address: 172.20.1.50
     stdin_open: true
     tty: true
-    command: sleep infinity
+    # Passerelle par défaut = le routeur du lab (et non le bridge Docker)
+    command: bash -c "ip route replace default via 172.20.1.254 && exec sleep infinity"
+
+  # ⚠️ Exercice 5 (bonus) uniquement : faux serveur DHCP.
+  # Ne démarre PAS avec un simple "docker compose up -d".
+  # Pour l'activer : docker compose --profile bonus up -d rogue-dhcp
+  rogue-dhcp:
+    build: ./rogue
+    container_name: lab_rogue_dhcp
+    hostname: rogue-dhcp
+    profiles: ["bonus"]
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - NET_BIND_SERVICE
+    networks:
+      lan:
+        ipv4_address: 172.20.1.99
 
 networks:
   wan:

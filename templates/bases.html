@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Les bases — Atelier Réseau{% endblock %}
+{% block content %}
+<h1>Les bases <span class="sub">adresses, voisins et routeurs</span></h1>
+
+<p>Pour communiquer, une machine a besoin de savoir <strong>qui elle est</strong> (son adresse),
+<strong>qui est à côté d'elle</strong> (son réseau local) et <strong>par où sortir</strong> pour
+joindre les autres réseaux (sa passerelle). Cette fiche présente ces notions avant l'exercice 1.</p>
+
+<h2>Une analogie pour démarrer</h2>
+<div class="callout">
+  Imaginez un immeuble. L'<strong>adresse IP</strong> est l'adresse postale de l'appartement&nbsp;:
+  elle permet d'acheminer un courrier depuis n'importe où dans le monde. L'<strong>adresse MAC</strong>
+  est le nom sur la boîte aux lettres&nbsp;: elle ne sert qu'à l'intérieur de l'immeuble (le réseau local).
+  La <strong>passerelle</strong>, c'est la loge du gardien&nbsp;: tout courrier pour l'extérieur passe par elle.
+</div>
+
+<h2>Les notions clés</h2>
+<table class="data-table">
+  <thead><tr><th>Notion</th><th>Couche</th><th>Définition</th><th>Exemple dans le lab</th></tr></thead>
+  <tbody>
+    {% for n in notions %}
+    <tr>
+      <td><strong>{{ n.terme }}</strong></td>
+      <td><span class="tag">{{ n.couche }}</span></td>
+      <td>{{ n.definition }}</td>
+      <td><code>{{ n.exemple }}</code></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Comment une machine décide où envoyer un paquet</h2>
+<ol class="bullet">
+  <li>Elle compare l'IP de destination à <strong>son propre réseau</strong> (grâce au masque).</li>
+  <li><strong>Même réseau</strong>&nbsp;? Elle demande la MAC du destinataire avec <strong>ARP</strong>
+      et lui envoie la trame directement.</li>
+  <li><strong>Autre réseau</strong>&nbsp;? Elle demande avec ARP la MAC de sa <strong>passerelle</strong>
+      et lui confie la trame. Le routeur fera suivre le paquet.</li>
+</ol>
+<div class="callout">
+  <strong>À retenir</strong> — l'IP de destination reste <em>la même</em> de bout en bout,
+  alors que la MAC de destination change à chaque saut&nbsp;: c'est toujours celle du
+  <em>prochain</em> équipement sur le réseau local.
+</div>
+
+<h2>Les machines du lab</h2>
+<table class="data-table mono">
+  <thead><tr><th>Machine</th><th>Adresse IP</th><th>Réseau</th><th>Rôle</th></tr></thead>
+  <tbody>
+    {% for m in machines %}
+    <tr><td>{{ m.nom }}</td><td>{{ m.ip }}</td><td>{{ m.reseau }}</td><td>{{ m.role }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p>Le <strong>LAN</strong> (<code>172.20.1.0/24</code>) joue le rôle de votre réseau domestique, le
+<strong>WAN</strong> (<code>172.20.0.0/24</code>) celui d'Internet. Seul le routeur est branché sur les deux.</p>
+
+<h2>Les commandes de l'exercice 1</h2>
+<table class="data-table">
+  <thead><tr><th>Commande</th><th>À quoi elle sert</th></tr></thead>
+  <tbody>
+    {% for c in commandes %}
+    <tr><td><code>{{ c.commande }}</code></td><td>{{ c.role }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="callout">
+  <strong>Exercice 1 (Codespace)</strong> — explorez le réseau du lab depuis le poste client&nbsp;:
+  vos adresses, votre passerelle, vos voisins, et le chemin jusqu'au serveur web.
+  Énoncé&nbsp;: <code>lab/exercises/01_ip_mac_ping.md</code>.
+</div>
+{% endblock %}

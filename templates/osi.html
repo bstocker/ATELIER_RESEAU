@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}OSI — Atelier Réseau M2{% endblock %}
+{% block title %}OSI — Atelier Réseau{% endblock %}
 {% block content %}
 <h1>Modèle OSI <span class="sub">7 couches, du physique à l'application</span></h1>
 
@@ -41,10 +41,19 @@ l'essentiel vit couche 7, sauf <code>remote_addr</code> qui vient de la couche 3
   <em>désencapsulation</em>.
 </div>
 
+<h2>Vocabulaire</h2>
+<table class="data-table">
+  <thead><tr><th>Terme</th><th>Définition</th></tr></thead>
+  <tbody>
+    {% for v in vocabulaire %}
+    <tr><td><strong>{{ v.terme }}</strong></td><td>{{ v.definition }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 <div class="callout">
-  <strong>Exercice du lab</strong> — capturez un échange HTTP avec
-  <code>tcpdump -i eth0 -w /tmp/capture.pcap</code> puis décodez couche par couche avec
-  <code>tshark -r /tmp/capture.pcap -V</code>. Voir
-  <code>lab/exercises/01_osi_capture.md</code>.
+  <strong>Exercice 2 (Codespace)</strong> — capturez un échange HTTP avec
+  <code>tcpdump</code> puis décodez-le couche par couche avec
+  <code>osi_inspect.py</code>. Énoncé&nbsp;: <code>lab/exercises/02_osi_capture.md</code>.
 </div>
 {% endblock %}

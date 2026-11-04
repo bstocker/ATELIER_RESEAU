@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Atelier Réseau · M2{% endblock %}</title>
+  <title>{% block title %}Atelier Réseau{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <header>
     <div class="brand">
       <span class="logo-dot"></span>
-      <span>Atelier Réseau <span class="muted">· M2</span></span>
+      <span>Atelier Réseau</span>
     </div>
     <nav>
       <a href="/"        {% if active=='index'   %}class="active"{% endif %}>Accueil</a>
+      <a href="/bases"   {% if active=='bases'   %}class="active"{% endif %}>Les bases</a>
       <a href="/osi"     {% if active=='osi'     %}class="active"{% endif %}>OSI</a>
       <a href="/dhcp"    {% if active=='dhcp'    %}class="active"{% endif %}>DHCP</a>
       <a href="/nat"     {% if active=='nat'     %}class="active"{% endif %}>NAT/PAT</a>
@@ -24,7 +25,7 @@
     {% block content %}{% endblock %}
   </main>
   <footer>
-    <span>Atelier pédagogique — réseau Master 2</span>
+    <span>Atelier pédagogique — découvrir les réseaux</span>
     <span>Données aussi disponibles en JSON&nbsp;: <code>?format=json</code> ou <code>Accept: application/json</code></span>
   </footer>
 </body>
