@@ -35,18 +35,18 @@ sur la ligne `inet` se trouvent l'**adresse IP** et le **masque** (après le `/`
 
 | Information        | Valeur pour le client |
 | ------------------ | --------------------- |
-| Nom de l'interface | …                     |
-| Adresse MAC        | …                     |
-| Adresse IP         | …                     |
-| Masque (notation `/`) | …                  |
-| Adresse du réseau  | …                     |
+| Nom de l'interface | eth0                     |
+| Adresse MAC        | 60:45:bd:0f:ba:94                    |
+| Adresse IP         |10.0.0.138                     |
+| Masque (notation `/`) | /16                 |
+| Adresse du réseau  |10.0.0.0                     |
 
 **Question A.2.** Le masque est `/24`. Combien de machines différentes peut-on placer dans ce réseau ?
 (Indice : le dernier nombre de l'adresse peut varier de 0 à 255, mais 2 valeurs sont réservées.)
 
 > 💬 **Votre réponse :**
 >
-> _Remplacez ce texte par votre réponse._
+> 254
 
 ### Étape 2 — Ma passerelle
 
